@@ -1,7 +1,6 @@
 // backend/src/server.ts
 
 import express, { Express, Request, Response, NextFunction } from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -56,19 +55,6 @@ app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
     ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 });
-
-// --- Database Connection ---
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  console.error("FATAL ERROR: MONGODB_URI is not defined in .env file");
-  process.exit(1);
-}
-
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log("✅ MongoDB connection successful!"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // --- Start Server ---
 const server = app.listen(PORT, () => {
