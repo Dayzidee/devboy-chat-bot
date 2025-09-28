@@ -1,0 +1,50 @@
+/* File: /frontend/src/styles/index.css */
+
+/* 1. Import Google Fonts (No changes needed here) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Poppins:wght@600;700;800&display=swap');
+
+/* 2. Include Tailwind Layers (No changes needed here) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. Define theme variables and apply base styles */
+@layer base {
+  /*
+    REFACTOR 1:
+    Define variables for the LIGHT theme as the default on the :root element.
+    This replaces the need for the separate ':not(.dark)' rule.
+    The HSL values are now just the numbers, which is the correct format for Tailwind.
+  */
+  :root {
+    --background: 0 0% 98%;      /* Light background */
+    --foreground: 0 0% 9%;       /* Light text */
+    --card: 0 0% 100%;           /* Light card background */
+    --card-foreground: 0 0% 9%;
+    --border: 0 0% 89.8%;
+  }
+
+  /*
+    REFACTOR 2:
+    Define variables for the DARK theme.
+    This rule will override the :root variables when the .dark class is applied to the <html> tag.
+    The 'hsl()' wrapper has been removed to maintain the correct format.
+  */
+  .dark {
+    --background: 0 0% 8%;       /* Dark background */
+    --foreground: 0 0% 95%;      /* Dark text */
+    --card: 0 0% 12%;            /* Dark card background */
+    --card-foreground: 0 0% 95%;
+    --border: 0 0% 18%;
+  }
+  
+  /*
+    REFACTOR 3:
+    Combine the two 'body' rules into a single, clean rule.
+    This applies the theme variables and sets the default font and transitions.
+  */
+  body {
+    @apply bg-background text-foreground font-sans;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}

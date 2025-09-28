@@ -1,0 +1,48 @@
+@baseUrl = http://localhost:8000/api/v1
+
+###
+# @name registerUser
+# We use a new user for a clean test.
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "test_final_v3",
+  "email": "test_final_v3@example.com",
+  "password": "Password123!"
+}
+
+###
+# @name loginUser
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test_final_v3@example.com",
+  "password": "Password123!"
+}
+
+### 
+# --- THIS IS THE CORRECTED CAPTURE ---
+# It now correctly looks for 'accessToken' inside the 'data' object.
+@authToken = {{loginUser.response.body.data.accessToken}}
+
+
+##################################################
+#           PROTECTED ROUTE VERIFICATION         #
+##################################################
+
+###
+# @name getMyProfileSuccess
+# This test will now succeed.
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{authToken}}
+
+###
+# @name getMyProfileFailNoToken
+GET {{baseUrl}}/users/me
+
+###
+# @name getMyProfileFailBadToken
+GET {{baseUrl}}/users/me
+Authorization: Bearer this.is.an.invalid.token
