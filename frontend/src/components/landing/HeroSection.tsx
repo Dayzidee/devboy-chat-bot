@@ -1,8 +1,8 @@
-// File: /frontend/src/components/landing/HeroSection.tsx
+// src/components/landing/HeroSection.tsx
 
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MoveRight } from "lucide-react";
+import { MoveRight, Zap } from "lucide-react";
 
 const HeroSection = () => {
   // Animation variants for Framer Motion
@@ -31,12 +31,19 @@ const HeroSection = () => {
         initial="hidden"
         animate="visible"
       >
+        {/* Visual Element */}
+        <motion.div variants={itemVariants} className="mb-6">
+          <div className="flex items-center justify-center bg-primary/10 rounded-full p-4">
+            <Zap className="h-12 w-12 text-primary" />
+          </div>
+        </motion.div>
+
         {/* Main Headline */}
         <motion.h1
           className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-display bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-darker"
           variants={itemVariants}
         >
-          Eliminate Coding Roadblocks
+          Supercharge Your Development Workflow
         </motion.h1>
 
         {/* Sub-headline */}
@@ -44,9 +51,7 @@ const HeroSection = () => {
           className="mt-6 max-w-[700px] text-lg text-foreground/80 sm:text-xl"
           variants={itemVariants}
         >
-          DevBot provides pre-optimized AI prompts and developer-specific modes
-          to make AI-assisted development faster and more accessible than ever
-          before.
+          DevBot is your AI-powered pair programmer. Get instant answers, generate code, and debug faster with our pre-optimized prompts and developer-centric tools.
         </motion.p>
 
         {/* Call to Action Button */}
@@ -55,10 +60,13 @@ const HeroSection = () => {
             to="/signup"
             className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-4 text-lg font-bold text-primary-foreground shadow-lg transition-all hover:scale-105 hover:bg-primary-darker focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
           >
-            Get Started For Free
+            Start Building for Free
             <MoveRight className="ml-2 h-5 w-5" />
           </Link>
         </motion.div>
+        <motion.p className="mt-4 text-sm text-foreground/60" variants={itemVariants}>
+          No credit card required.
+        </motion.p>
       </motion.div>
     </section>
   );

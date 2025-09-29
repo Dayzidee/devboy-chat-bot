@@ -1,13 +1,46 @@
-// File: /frontend/src/components/landing/AboutSection.tsx
+// src/components/landing/AboutSection.tsx
 
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { motion, useAnimation } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
 
+// A reusable animated counter component
+const AnimatedStat = ({ to, label }: { to: number; label: string }) => {
+  const controls = useAnimation();
+  const [ref, isInView] = useInView({ threshold: 0.5 });
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start({
+        // This is a custom property that framer-motion can animate
+        number: to,
+        transition: { duration: 2, ease: "circOut" },
+      });
+    }
+  }, [isInView, to, controls]);
+
+  return (
+    <div ref={ref} className="text-center">
+      <motion.p
+        className="text-4xl font-bold text-primary"
+        // Animate the custom 'number' property
+        custom={{ number: 0 }}
+        animate={controls}
+        onUpdate={(latest) => {
+          const pElement = ref.current?.querySelector('p');
+          if (pElement) {
+            pElement.textContent = `${Math.round(latest.number as number)}%`;
+          }
+        }}
+      />
+      <p className="text-sm text-foreground/60">{label}</p>
+    </div>
+  );
+};
+
 const AboutSection = () => {
-  // Use our custom hook to get a ref and the in-view status.
   const [ref, isInView] = useInView({ threshold: 0.1 });
 
-  // Animation variants for the container to stagger children
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -16,7 +49,6 @@ const AboutSection = () => {
     },
   };
 
-  // Animation for items sliding in from the bottom
   const slideUpVariant = {
     hidden: { y: 50, opacity: 0 },
     visible: {
@@ -38,57 +70,40 @@ const AboutSection = () => {
         {/* Section Header */}
         <motion.div className="text-center mb-16" variants={slideUpVariant}>
           <h2 className="text-4xl font-extrabold font-display">
-            From Developer Frustration to Solution
+            Built for Developers, By Developers
           </h2>
           <p className="mt-4 text-lg text-foreground/70 max-w-3xl mx-auto">
-            Built by a developer, for developers. I created DevBot to solve the
-            exact problems I faced every single day.
+            Our mission is to eliminate the friction in AI-assisted development and build the tools we wish we had.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
-          {/* Left Side: Image */}
-          <motion.div className="lg:col-span-2" variants={slideUpVariant}>
-            <img
-              // Placeholder for your developer photo
-              src="https://placehold.co/500x500/1f1f1f/ffffff?text=Your+Photo"
-              alt="The developer of DevBot"
-              className="rounded-full aspect-square object-cover shadow-lg border-4 border-primary/50"
-            />
-          </motion.div>
-
-          {/* Right Side: Text and Stats */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Side: Text */}
           <motion.div
-            className="lg:col-span-3 space-y-6"
+            className="space-y-6"
             variants={slideUpVariant}
           >
             <p className="text-lg text-foreground/80">
-              Like many of you, I spent countless hours wrestling with generic
-              AI chatbots, trying to bend them to my will for complex coding
-              tasks. The prompts were never quite right, the context was always
-              missing, and the generated code often required heavy refactoring.
-              It was a constant source of friction.
+              We got tired of wrestling with generic AI tools that didn't understand the nuances of coding. We spent more time engineering the perfect prompt than actually building.
             </p>
             <p className="text-lg text-foreground/80">
-              I knew there had to be a better way. That's why I built DevBot: an
-              intelligent assistant that speaks our language, understands our
-              frameworks, and is pre-optimized for the challenges we face. This
-              isn't just another chatbot; it's the co-pilot I always wished I
-              had.
+              DevBot is our solution. It's an intelligent assistant that speaks our language, understands our frameworks, and is pre-optimized for the challenges we face. This isn't just another chatbot; it's the co-pilot we always wanted.
             </p>
+          </motion.div>
 
-            {/* Animated Stats */}
+          {/* Right Side: Image and Stats */}
+          <motion.div
+            className="space-y-8"
+            variants={slideUpVariant}
+          >
+            <img
+              src="https://via.placeholder.com/500x300/1E1E1E/FFFFFF?text=Our+Team"
+              alt="The DevBot Team"
+              className="rounded-lg shadow-lg"
+            />
             <div className="grid grid-cols-2 gap-6 pt-4">
-              <div className="text-center">
-                <p className="text-4xl font-bold text-primary">80%</p>
-                <p className="text-sm text-foreground/60">Faster Prompting</p>
-              </div>
-              <div className="text-center">
-                <p className="text-4xl font-bold text-primary">45%</p>
-                <p className="text-sm text-foreground/60">
-                  Better Code Quality
-                </p>
-              </div>
+              <AnimatedStat to={80} label="Faster Prompting" />
+              <AnimatedStat to={45} label="Improved Code Quality" />
             </div>
           </motion.div>
         </div>
