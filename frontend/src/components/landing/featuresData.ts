@@ -1,34 +1,34 @@
-// File: /frontend/src/components/landing/featuresData.ts
+// src/components/landing/featuresData.ts
 
 import { Code, Bot, Zap, ShieldCheck } from "lucide-react";
 
 export const features = [
   {
     icon: Bot,
-    title: "Optimized AI Prompts",
+    title: "Intelligent AI Prompts",
     description:
-      "Stop guessing. Use our pre-built, battle-tested prompts designed specifically for development tasks to get superior results from AI models.",
-    image: "https://placehold.co/1024x768/141414/00ff88?text=Prompt+UI",
+      "Leverage our fine-tuned, developer-specific prompts to get the most accurate and relevant AI responses.",
+    image: "https://via.placeholder.com/1024x768/1E1E1E/FFFFFF?text=Optimized+AI+Prompts",
   },
   {
     icon: Code,
-    title: "Developer-Specific Modes",
+    title: "Context-Aware Coding",
     description:
-      "Switch between JavaScript, Python, or Basic modes. DevBot injects critical context to give you relevant, framework-aware code and explanations.",
-    image: "https://placehold.co/1024x768/1f1f1f/00ff88?text=Mode+Selection",
+      "Switch between different coding languages and frameworks. DevBot provides context-aware assistance for your specific needs.",
+    image: "https://via.placeholder.com/1024x768/1E1E1E/FFFFFF?text=Context-Aware+Coding",
   },
   {
     icon: Zap,
-    title: "Multi-Model Support",
+    title: "Multi-Model Flexibility",
     description:
-      "Seamlessly switch between top AI models like OpenAI's GPT, Anthropic's Claude, and Google's Gemini to find the best tool for your specific problem.",
-    image: "https://placehold.co/1024x768/111827/00ff88?text=Model+Toggle",
+      "Access the best AI models from OpenAI, Anthropic, and Google. Choose the right tool for the job, every time.",
+    image: "https://via.placeholder.com/1024x768/1E1E1E/FFFFFF?text=Multi-Model+Support",
   },
   {
     icon: ShieldCheck,
-    title: "Secure & Private",
+    title: "Privacy First",
     description:
-      "Your conversations are your own. We prioritize your privacy with end-to-end encryption and robust security measures. Your code is never used for training.",
-    image: "https://placehold.co/1024x768/000000/00ff88?text=Security+Shield",
+      "Your code and conversations are always private and secure. We never use your data for training.",
+    image: "https://via.placeholder.com/1024x768/1E1E1E/FFFFFF?text=Secure+and+Private",
   },
 ];

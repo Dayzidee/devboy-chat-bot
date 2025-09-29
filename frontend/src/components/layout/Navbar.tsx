@@ -1,82 +1,108 @@
-// File: /frontend/src/components/layout/Navbar.tsx
+// src/components/layout/Navbar.tsx
 
-import { Link } from "react-router-dom";
-import { BotMessageSquare, Sun, Moon } from "lucide-react"; // Using icons from lucide-react
-import { useThemeStore } from "@/hooks/useThemeStore";
+import { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { Bot, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-// A placeholder for our theme toggle hook, which we will build later
-
-
-const useTheme = () => ({
-  theme: "dark", // 'dark' or 'light'
-  toggleTheme: () => console.log("Toggling theme"),
-});
+const navLinks = [
+  { to: '/features', text: 'Features' },
+  { to: '/pricing', text: 'Pricing' },
+  { to: '/contact', text: 'Contact' },
+];
 
 const Navbar = () => {
-   const { theme, toggleTheme } = useThemeStore();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const activeLinkStyle = {
+    color: 'var(--primary-color)',
+    fontWeight: 'bold',
+  };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
-        {/* Logo and App Name */}
-        <Link to="/" className="flex items-center space-x-2">
-          <BotMessageSquare className="h-6 w-6 text-primary" />
-          <span className="font-bold text-lg font-display">DevBot</span>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
+      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 text-2xl font-bold font-display">
+          <Bot className="w-8 h-8 text-primary" />
+          DevBot
         </Link>
 
-        {/* Navigation and Actions */}
-        <div className="flex items-center space-x-4">
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link
-              to="/features"
-              className="transition-colors hover:text-primary"
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className="text-foreground/70 hover:text-primary transition-colors"
+              style={({ isActive }) => (isActive ? activeLinkStyle : {})}
             >
-              Features
-            </Link>
-            <Link
-              to="/pricing"
-              className="transition-colors hover:text-primary"
-            >
-              Pricing
-            </Link>
-            <Link
-              to="/contact"
-              className="transition-colors hover:text-primary"
-            >
-              Contact
-            </Link>
-          </nav>
+              {link.text}
+            </NavLink>
+          ))}
+        </nav>
 
-          {/* Theme Toggle Button */}
-          <button
-            onClick={toggleTheme}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-border transition-colors hover:bg-card hover:text-primary"
-            aria-label="Toggle theme"
+        {/* Desktop Auth Buttons */}
+        <div className="hidden md:flex items-center gap-4">
+          <Link to="/login" className="text-foreground/70 hover:text-primary transition-colors">
+            Log In
+          </Link>
+          <Link
+            to="/signup"
+            className="px-6 py-2 rounded-full bg-primary text-primary-foreground font-bold hover:bg-primary-darker transition-colors"
           >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
-          </button>
+            Sign Up
+          </Link>
+        </div>
 
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-2">
-            <Link
-              to="/login"
-              className="px-4 py-2 text-sm font-medium transition-colors hover:text-primary"
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary-darker transition-colors"
-            >
-              Sign Up
-            </Link>
-          </div>
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-background border-t border-border"
+          >
+            <nav className="flex flex-col items-center p-4 gap-4">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className="text-foreground/70 hover:text-primary transition-colors"
+                  style={({ isActive }) => (isActive ? activeLinkStyle : {})}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.text}
+                </NavLink>
+              ))}
+              <div className="w-full border-t border-border my-2" />
+              <Link
+                to="/login"
+                className="w-full text-center py-2 rounded-md hover:bg-primary/10 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Log In
+              </Link>
+              <Link
+                to="/signup"
+                className="w-full text-center py-2 rounded-md bg-primary text-primary-foreground font-bold hover:bg-primary-darker transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

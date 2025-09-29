@@ -1,8 +1,15 @@
-// File: /frontend/src/App.tsx
+// src/App.tsx
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import LandingPage from "./pages/landing/LandingPage";
+import FeaturesPage from "./pages/features/FeaturesPage";
+import PricingPage from "./pages/pricing/PricingPage";
+import ContactPage from "./pages/contact/ContactPage";
+import LoginPage from "./pages/login/LoginPage";
+import SignupPage from "./pages/signup/SignupPage";
+import TermsOfServicePage from "./pages/terms/TermsOfServicePage";
+import PrivacyPolicyPage from "./pages/privacy/PrivacyPolicyPage";
 
 // Define the application's routes
 const router = createBrowserRouter([
@@ -14,12 +21,15 @@ const router = createBrowserRouter([
         index: true, // This makes LandingPage the default child for "/"
         element: <LandingPage />,
       },
-      // We can add more pages here later, e.g., /features, /pricing
-      // { path: 'features', element: <FeaturesPage /> },
+      { path: "features", element: <FeaturesPage /> },
+      { path: "pricing", element: <PricingPage /> },
+      { path: "contact", element: <ContactPage /> },
+      { path: "login", element: <LoginPage /> },
+      { path: "signup", element: <SignupPage /> },
+      { path: "terms", element: <TermsOfServicePage /> },
+      { path: "privacy", element: <PrivacyPolicyPage /> },
     ],
   },
-  // We'll add other top-level routes like /chat or /login here later
-  // { path: '/login', element: <LoginPage /> },
 ]);
 
 function App() {
